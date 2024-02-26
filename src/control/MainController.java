@@ -42,6 +42,13 @@ public class MainController {
     public String searchList(String name){
         String output = "Nicht gefunden.";
         //TODO 01: Schreibe einen Suchalgorithmus
+        allPersons.toFirst();
+        while (allPersons.hasAccess()) {
+            if (allPersons.getContent().getName().equals(name)) {
+                return "Name: " + allPersons.getContent().getName() + ", Birthdate: " + allPersons.getContent().getBirthdate();
+            }
+            allPersons.next();
+        }
         return output;
     }
 
@@ -49,8 +56,52 @@ public class MainController {
      * Stortiere die Liste nach Namen (nicht nach Geburtsdatum!). Entscheide dich hierzu für einen Sortieralgorithmus.
      * Gib an, ob deine Umsetzung stabil ist und ob sie in-place ist.
      */
-    public void sortList(){
+    public void sortListSelectionSort(){
         //TODO 02: Schreibe einen Sortieralgorithmus
+        while (!allPersons.isEmpty()) {
+            allPersons.toFirst();
+            Person min = allPersons.getContent();
+            while (allPersons.hasAccess()) {
+                if (allPersons.getContent().getName().compareTo(min.getName()) > 0) {
+                    allPersons.insert(min);
+                    while (allPersons.hasAccess() && !allPersons.getContent().getName().equals(min.getName())) {
+                        allPersons.next();
+                    }
+                    allPersons.remove();
+                }
+                allPersons.next();
+            }
+        }
+    }
+
+    public void sortListBubbleSort(){
+        //TODO 02: Schreibe einen Sortieralgorithmus
+        int count = 0;
+        allPersons.toFirst();
+        while (allPersons.hasAccess()) {
+            allPersons.next();
+            count++;
+        }
+
+        for (int i = 0; i < count; i++) {
+            allPersons.toFirst();
+            Person max = allPersons.getContent();
+            Person idkMan;
+            while (allPersons.hasAccess()) {
+                if (allPersons.getContent().getName().compareTo(max.getName()) < 0) {
+                    allPersons.next();
+                    allPersons.next();
+                    allPersons.setContent(max);
+                }
+                allPersons.next();
+            }
+            while (allPersons.hasAccess()) {
+                if (allPersons.getContent().getName().compareTo(max.getName()) < 0) {
+                    allPersons.setContent(max);
+                }
+                allPersons.next();
+            }
+        }
     }
 
 

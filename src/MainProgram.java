@@ -24,7 +24,7 @@ public class MainProgram {
 
         //Sortieren der Liste
         System.out.println(mainController.showList());  //Liste vorher
-        mainController.sortList();                      //Liste sortieren
+        mainController.sortListSelectionSort();                      //Liste sortieren
         System.out.println(mainController.showList());  //Liste nachher
 
     }
