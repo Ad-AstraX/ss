@@ -58,50 +58,49 @@ public class MainController {
      */
     public void sortListSelectionSort(){
         //TODO 02: Schreibe einen Sortieralgorithmus
+        List<Person> newList = new List<>();
         while (!allPersons.isEmpty()) {
             allPersons.toFirst();
             Person min = allPersons.getContent();
             while (allPersons.hasAccess()) {
-                if (allPersons.getContent().getName().compareTo(min.getName()) > 0) {
-                    allPersons.insert(min);
-                    while (allPersons.hasAccess() && !allPersons.getContent().getName().equals(min.getName())) {
-                        allPersons.next();
-                    }
-                    allPersons.remove();
+                if (allPersons.getContent().getName().compareTo(min.getName()) < 0) {
+                    min = allPersons.getContent();
                 }
                 allPersons.next();
             }
+
+            allPersons.toFirst();
+            while (allPersons.hasAccess() && !allPersons.getContent().getName().equals(min.getName())) {
+                allPersons.next();
+            }
+            newList.append(min);
+            allPersons.remove();
         }
+
+        allPersons = newList;
     }
 
-    public void sortListBubbleSort(){
+    public void sortList(){
         //TODO 02: Schreibe einen Sortieralgorithmus
-        int count = 0;
+        List<Person> newList = new List<>();
+
         allPersons.toFirst();
-        while (allPersons.hasAccess()) {
-            allPersons.next();
-            count++;
+        while (!allPersons.isEmpty()) { //This would also work: (allPersons.hasAccess)
+            Person current = allPersons.getContent();
+            newList.toFirst();
+            while (newList.hasAccess() && newList.getContent().getName().compareTo(current.getName()) < 0) {
+                newList.next();
+            }
+            if (newList.hasAccess()) {
+                newList.insert(current);
+            } else {
+                newList.append(current);
+            }
+
+            allPersons.remove(); //allPersons.next()
         }
 
-        for (int i = 0; i < count; i++) {
-            allPersons.toFirst();
-            Person max = allPersons.getContent();
-            Person idkMan;
-            while (allPersons.hasAccess()) {
-                if (allPersons.getContent().getName().compareTo(max.getName()) < 0) {
-                    allPersons.next();
-                    allPersons.next();
-                    allPersons.setContent(max);
-                }
-                allPersons.next();
-            }
-            while (allPersons.hasAccess()) {
-                if (allPersons.getContent().getName().compareTo(max.getName()) < 0) {
-                    allPersons.setContent(max);
-                }
-                allPersons.next();
-            }
-        }
+        allPersons = newList;
     }
 
 
